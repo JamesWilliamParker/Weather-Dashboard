@@ -36,7 +36,7 @@ function renderCurrentWeather(city,weather){
     // console.log(iconURL);
     // console.log(iconURL);
     // console.log(weather.list[0].wind.speed);
-
+    // sending commit
     tempH1.textContent = temp;
     windH1.textContent = wind;
     humidH1.textContent = humid;
