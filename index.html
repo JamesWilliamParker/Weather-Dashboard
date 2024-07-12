@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <!-- <link rel="stylesheet" href="./assets/css/styles.css"> -->
 </head>
 <body>
-    <input type="text" id="searchInput">
-    <button type="submit" id="searchButton">Submit</button>
-    <div id="container"></div>
-    <div id="buttons"></div>
+  <div class="container">
+    <h1>Weather App</h1>
     
+    <!-- Search Input and Button -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter city name">
+      <button id="searchButton">Search</button>
+    </div>
+    
+    <!-- Current Weather Display -->
+    <div id="container" class="current-weather">
+      <!-- Current weather data will be rendered here -->
+    </div>
+    
+    <!-- Forecast Display -->
+    <div id="forecastContainer" class="forecast">
+      <!-- 5-day forecast data will be rendered here -->
+    </div>
+    
+    <!-- Search History Display -->
+    <div id="cityNameButtonContainer" class="search-history">
+      <!-- Search history buttons will be rendered here -->
+    </div>
+  </div>
 
-
-
-
-
-    <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/script.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
