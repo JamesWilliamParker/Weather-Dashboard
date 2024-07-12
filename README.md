@@ -17,4 +17,9 @@ I WANT to see the weather outlook for multiple cities
 SO THAT I can plan a trip accordingly
 
 ## Resources
-TA Mary, Jose, Jordan, Shreya, ChatGPT, MDN, W3 Schools, JS Docs.
+TA Mary, Jose, Jordan, Shreya, ChatGPT, MDN, W3 Schools, JS Docs, CSS Docs.
+
+## Deployment Link
+https://jameswilliamparker.github.io/Weather-Dashboard/
+## Repository Link
+https://github.com/JamesWilliamParker/Weather-Dashboard
