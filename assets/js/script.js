@@ -17,6 +17,7 @@ searchButton.addEventListener('click', function() {
     
 });
 
+
                     // Fetch Weather Data:
 // Create a function to fetch weather data from the OpenWeather API using the city name from the search input.
 
@@ -47,7 +48,39 @@ function fetchWeatherData(cityName) { // The function called "fetchWeatherData",
 // Create a function to extract and display the current weather data including city name, date, temperature, wind speed, humidity, and weather icon.
 
 
+function renderCurrentWeather(weatherData) {
+    // Extracting data from the weatherData object.
+    const cityName = weatherData.name;
+    const date = new Date(weatherData.dt * 1000).toLocaleDateString(); // Converts timestamp to date a string. .dt is a property in the API that contains a unix timestamp. Which represents dates and times as a single numeric value. * 1000 is because the API is doing seconds and JS 'data' object works with miliseconds.
+    const temperature = weatherData.main.temp;
+    const windSpeed = weatherData.wind.speed;
+    const humidity = weatherData.main.humidity;
+    const weatherIcon = weatherData.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
 
+    // Clears previous content in container div.
+    container.innerHTML = '';
+
+    // Creates elements to display weather information.
+    const cityHeader = document.createElement('h2');
+    cityHeader.textContent = `${cityName} (${date})`;
+
+    const temperatureParagraph = document.createElement('p');
+    temperatureParagraph.textContent = `Temperature: ${temperature} °F`;
+
+    const windSpeedParagraph = document.createElement('p');
+    windSpeedParagraph.textContent = `Wind Speed: ${windSpeed} MPH`;
+
+    const humidityParagraph = document.createElement('p');
+    humidityParagraph.textContent = `Humidity: ${humidity} %`;
+
+    const iconImage = document.createElement('img');
+    iconImage.setAttribute('src', iconUrl);
+    iconImage.setAttribute('alt', weatherData.weather[0].description);
+
+    // Appends the elements to the div called container.
+    container.append(cityHeader, iconImage, temperatureParagraph, windSpeedParagraph, humidityParagraph);
+}
 
                     // Render 5-Day Forecast:
 // Create a function to extract and display the 5-day weather forecast data including date, temperature, wind speed, humidity, and weather icons.
@@ -56,6 +89,7 @@ function fetchWeatherData(cityName) { // The function called "fetchWeatherData",
 
                     // Store Search History:
 // Create a function to store searched city names in localStorage.
+// Ensure the search history is updated each time a new city is searched.
 
 
 
@@ -66,11 +100,12 @@ function fetchWeatherData(cityName) { // The function called "fetchWeatherData",
 
                     // Handle Search History Clicks:
 // Attach an event listener to the container holding the search history buttons.
-
+// Ensure clicking on a search history button fetches and displays weather data for the corresponding city.
 
 
 
                     // Clear Previous Data:
+// Ensure that each new search clears previous weather data before displaying new data.
 
 
 
