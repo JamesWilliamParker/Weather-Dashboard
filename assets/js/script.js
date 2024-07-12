@@ -17,13 +17,35 @@ searchButton.addEventListener('click', function() {
     
 });
 
-
                     // Fetch Weather Data:
 // Create a function to fetch weather data from the OpenWeather API using the city name from the search input.
 
+// So the function that captured the click event is now going to be used to fetch weather data from the API.
+function fetchWeatherData(cityName) { // The function called "fetchWeatherData", is accepting a parameter called cityName. cityName will represent the data input by the user for the city name they type in the text field. So now this function can fetch the cityName data. This can be reused later with this captured data.
+    const APIKey = '5839972b293a2bb4a4def3084d9f3d38'; // API key is stored to make requests to the API.
+    const units = 'imperial'; // this is being done to have the temp displayed as fahrenheit.
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${units}&appid=${APIKey}`; // The API URL dynamically generates with the correct parameters city name, unit,s and my api key.
+
+    fetch(apiURL) // The fetch function will make a request to the apiURL to fetch the weather data from the API.
+        .then(function(response) { // .then is to handle the response from the fetch request. "response" is a parameter that captures the received data from the API request.
+            if (!response.ok) { // Checks if the response is not ok, if so there's an error. 
+                throw new Error('Response error'); // This is what the error will say.
+            }
+            return response.json(); // This line parses the content of the response so that the data received from the API converts into a JS object. 
+})
+    .then(function(data) { // The parsed JSON data received from the API used with the .then block handle.
+        console.log('Weather data:', data); // debugging purposes
+        renderCurrentWeather(data); // calls the function for displaying or rendering the current weather data on the UI.
+        storeSearchHistory(cityName); // This calls the function that will pass cityName as an argument. this function will store the searched city name in local storage. 
+    })
+    .catch(function(error) { // this will handle any data fetch error that may occur.
+        console.log('Fetch error:', error); // this will log the error using console.error with the goal to help in the development process to refer to.
+    });
+}
 
                     // Render Current Weather:
 // Create a function to extract and display the current weather data including city name, date, temperature, wind speed, humidity, and weather icon.
+
 
 
 
@@ -34,7 +56,6 @@ searchButton.addEventListener('click', function() {
 
                     // Store Search History:
 // Create a function to store searched city names in localStorage.
-
 
 
 
@@ -50,7 +71,6 @@ searchButton.addEventListener('click', function() {
 
 
                     // Clear Previous Data:
-
 
 
 
