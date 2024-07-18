@@ -4,29 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
-  <!-- <link rel="stylesheet" href="./assets/css/styles.css"> -->
+  <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Weather App</h1>
-    
-    <!-- Search Input and Button -->
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Enter city name">
-      <button id="searchButton">Search</button>
+  <div class="main-container">
+    <!-- Left Container for Search Input & History -->
+    <div class="left-container">
+      <h2>Search City</h2>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Enter city name">
+        <button id="searchButton">Search</button>
+      </div>
+      <div id="cityNameButtonContainer" class="search-history">
+        <!-- Search history buttons will be rendered in this area -->
+      </div>
     </div>
-    
-    <!-- Current Weather Display -->
-    <div id="container" class="current-weather">
-    </div>
-    
-    <!-- Forecast Display -->
-    <div id="forecastContainer" class="forecast">
-      <!-- 5-day forecast data will be rendered here -->
-    </div>
-    
-    <!-- Search History Display -->
-    <div id="cityNameButtonContainer" class="search-history">
+
+    <!-- Right Container for Weather Display -->
+    <div class="right-container">
+      <h1>Weather App</h1>
+      <div id="container" class="current-weather">
+        <!-- Current weather will be rendered here -->
+      </div>
+      <div id="forecastContainer" class="forecast">
+        <!-- 5-day forecast data will be rendered -->
+      </div>
     </div>
   </div>
 

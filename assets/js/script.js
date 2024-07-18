@@ -1,41 +1,44 @@
+// API Key for OpenWeatherMap
 const APIKey = "5839972b293a2bb4a4def3084d9f3d38";
+
+// Grab all the important elements from the DOM
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
-const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+const storedCities = JSON.parse(localStorage.getItem("cities")) || []; // Load stored cities or || start fresh
 const cityNameButtonContainer = document.getElementById("cityNameButtonContainer");
 const forecastContainer = document.getElementById("forecastContainer");
 const container = document.getElementById("container");
 
-// Set Up Event Listeners:
+// Set up the event listener for the search button
 searchButton.addEventListener("click", function () {
-  const cityName = searchInput.value.trim();
-  fetchWeatherData(cityName);
+  const cityName = searchInput.value.trim(); // Clean up the city name input
+  fetchWeatherData(cityName); // Fetch the weather data for the city
 });
 
-// Fetch Weather Data:
+// Function to fetch weather data from the API
 function fetchWeatherData(cityName) {
-  const units = "imperial";
+  const units = "imperial"; // Temperature in Fahrenheit
   const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=${units}&appid=${APIKey}`;
 
   fetch(apiURL)
     .then(response => {
       if (!response.ok) {
-        throw new Error("Response error");
+        throw new Error("Something went wrong with the response"); // Handle errors if the response is bad
       }
       return response.json();
     })
     .then(data => {
-      console.log("Weather data:", data);
-      renderCurrentWeather(data); // Render current weather
-      renderFiveDayForecast(data.list); // Render 5-day forecast
-      storeSearchHistory(cityName); // Store search history
+      console.log("Weather data:", data); // Log the data we got back
+      renderCurrentWeather(data); // Show the current weather
+      renderFiveDayForecast(data.list); // Show the 5-day forecast
+      storeSearchHistory(cityName); // Save this city in our history
     })
     .catch(error => {
-      console.error("Fetch error:", error);
+      console.error("There was a problem with the fetch:", error); // Handle fetch errors
     });
 }
 
-// Render Current Weather:
+// Function to display the current weather
 function renderCurrentWeather(weatherData) {
   const cityName = weatherData.city.name;
   const date = new Date(weatherData.list[0].dt * 1000).toLocaleDateString();
@@ -45,8 +48,9 @@ function renderCurrentWeather(weatherData) {
   const weatherIcon = weatherData.list[0].weather[0].icon;
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
 
-  container.innerHTML = "";
+  container.innerHTML = ""; // Clear out old data
 
+  // Create & append new elements for the current weather
   const cityHeader = document.createElement("h2");
   cityHeader.textContent = `${cityName} (${date})`;
 
@@ -66,16 +70,16 @@ function renderCurrentWeather(weatherData) {
   container.append(cityHeader, iconImage, temperatureParagraph, windSpeedParagraph, humidityParagraph);
 }
 
-// Render 5-Day Forecast:
+// Function to display the 5-day weather forecast
 function renderFiveDayForecast(forecastData) {
-  forecastContainer.innerHTML = ''; // Clears previous content.
+  forecastContainer.innerHTML = ''; // Clears any previous forecast
 
-  // This will make it so it takes 5 entires, 1 per day
-  const uniqueDays = [];
+  const uniqueDays = []; // Tracks unique dates for the forecast
+
   forecastData.forEach(dayForecast => {
     const date = new Date(dayForecast.dt * 1000).toLocaleDateString();
 
-    // Checks to see if this date is already added
+    // Checks to see if the date is already used: to avoid repetition
     if (!uniqueDays.includes(date)) {
       uniqueDays.push(date);
 
@@ -88,6 +92,7 @@ function renderFiveDayForecast(forecastData) {
       const forecastDiv = document.createElement("div");
       forecastDiv.classList.add("forecast-item");
 
+      // Create & add elements for this day’s forecast
       const dateElement = document.createElement("p");
       dateElement.textContent = date;
 
@@ -106,32 +111,32 @@ function renderFiveDayForecast(forecastData) {
       forecastDiv.append(dateElement, tempElement, windElement, humidElement, iconImg);
       forecastContainer.appendChild(forecastDiv);
 
-      // Stops after 5 unique days
+      // Stops after showing 5 unique days
       if (uniqueDays.length === 5) return;
     }
   });
 }
 
-// Stores Search History:
+// Function to save search history
 function storeSearchHistory(cityName) {
   if (!storedCities.includes(cityName)) {
-    storedCities.push(cityName);
-    localStorage.setItem("cities", JSON.stringify(storedCities));
-    renderSearchHistoryButtons();
+    storedCities.push(cityName); // Adds the new city to our list
+    localStorage.setItem("cities", JSON.stringify(storedCities)); // Save the list to localStorage
+    renderSearchHistoryButtons(); // Update the buttons with the new list
   }
 }
 
-// Renders Search History Buttons:
+// Function to render buttons for each city in the search history
 function renderSearchHistoryButtons() {
-  cityNameButtonContainer.innerHTML = '';
+  cityNameButtonContainer.innerHTML = ''; // Clears old history buttons
   storedCities.forEach(city => {
     const button = document.createElement("button");
     button.textContent = city;
     button.classList.add("history-btn");
-    button.addEventListener("click", () => fetchWeatherData(city));
+    button.addEventListener("click", () => fetchWeatherData(city)); // Fetches weather for the city when button is clicked
     cityNameButtonContainer.appendChild(button);
   });
 }
 
-// Initial rendering of search history buttons:
+// Renders the search history buttons when the page loads
 renderSearchHistoryButtons();
